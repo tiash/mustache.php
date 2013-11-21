@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache;
+
 /**
  * Describes a Mustache logger instance
  *
@@ -26,7 +28,7 @@
  * See https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md
  * for the full interface specification.
  */
-interface Mustache_Logger
+interface Logger
 {
     /**
      * Psr\Log compatible log levels

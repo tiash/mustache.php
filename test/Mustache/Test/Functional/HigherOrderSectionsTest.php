@@ -9,25 +9,27 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\Functional;
+
 /**
  * @group lambdas
  * @group functional
  */
-class Mustache_Test_Functional_HigherOrderSectionsTest extends PHPUnit_Framework_TestCase
+class HigherOrderSectionsTest extends \PHPUnit_Framework_TestCase
 {
 
     private $mustache;
 
     public function setUp()
     {
-        $this->mustache = new Mustache_Engine;
+        $this->mustache = new \Mustache\Engine;
     }
 
     public function testRuntimeSectionCallback()
     {
         $tpl = $this->mustache->loadTemplate('{{#doublewrap}}{{name}}{{/doublewrap}}');
 
-        $foo = new Mustache_Test_Functional_Foo;
+        $foo = new Foo;
         $foo->doublewrap = array($foo, 'wrapWithBoth');
 
         $this->assertEquals(sprintf('<strong><em>%s</em></strong>', $foo->name), $tpl->render($foo));
@@ -37,7 +39,7 @@ class Mustache_Test_Functional_HigherOrderSectionsTest extends PHPUnit_Framework
     {
         $tpl = $this->mustache->loadTemplate('{{#trimmer}}    {{name}}    {{/trimmer}}');
 
-        $foo = new Mustache_Test_Functional_Foo;
+        $foo = new Foo;
         $foo->trimmer = array(get_class($foo), 'staticTrim');
 
         $this->assertEquals($foo->name, $tpl->render($foo));
@@ -47,7 +49,7 @@ class Mustache_Test_Functional_HigherOrderSectionsTest extends PHPUnit_Framework
     {
         $tpl = $this->mustache->loadTemplate('{{#trim}}    {{name}}    {{/trim}}');
 
-        $foo = new Mustache_Test_Functional_Foo;
+        $foo = new Foo;
 
         $data = array(
             'name' => 'Bob',
@@ -61,19 +63,19 @@ class Mustache_Test_Functional_HigherOrderSectionsTest extends PHPUnit_Framework
     {
         $tpl = $this->mustache->loadTemplate('{{#title}}{{title}} {{/title}}{{name}}');
 
-        $frank = new Mustache_Test_Functional_Monster();
+        $frank = new Monster();
         $frank->title = 'Dr.';
         $frank->name  = 'Frankenstein';
         $this->assertEquals('Dr. Frankenstein', $tpl->render($frank));
 
-        $dracula = new Mustache_Test_Functional_Monster();
+        $dracula = new Monster();
         $dracula->title = 'Count';
         $dracula->name  = 'Dracula';
         $this->assertEquals('Count Dracula', $tpl->render($dracula));
     }
 }
 
-class Mustache_Test_Functional_Foo
+class Foo
 {
     public $name = 'Justin';
     public $lorem = 'Lorem ipsum dolor sit amet,';
@@ -99,7 +101,7 @@ class Mustache_Test_Functional_Foo
     }
 }
 
-class Mustache_Test_Functional_Monster
+class Monster
 {
     public $title;
     public $name;

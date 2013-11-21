@@ -9,24 +9,26 @@
  * file that was distributed with this source code.
  */
 
-class Mustache_Test_Exception_UnknownTemplateExceptionTest extends PHPUnit_Framework_TestCase
+namespace Mustache\Test\Exception;
+
+class UnknownTemplateExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $e = new Mustache_Exception_UnknownTemplateException('mario');
-        $this->assertTrue($e instanceof InvalidArgumentException);
-        $this->assertTrue($e instanceof Mustache_Exception);
+        $e = new \Mustache\Exception\UnknownTemplateException('mario');
+        $this->assertTrue($e instanceof \InvalidArgumentException);
+        $this->assertTrue($e instanceof \Mustache\Exception);
     }
 
     public function testMessage()
     {
-        $e = new Mustache_Exception_UnknownTemplateException('luigi');
+        $e = new \Mustache\Exception\UnknownTemplateException('luigi');
         $this->assertEquals('Unknown template: luigi', $e->getMessage());
     }
 
     public function testGetTemplateName()
     {
-        $e = new Mustache_Exception_UnknownTemplateException('yoshi');
+        $e = new \Mustache\Exception\UnknownTemplateException('yoshi');
         $this->assertEquals('yoshi', $e->getTemplateName());
     }
 }

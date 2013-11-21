@@ -9,24 +9,26 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\FiveThree\Functional;
+
 /**
  * @group lambdas
  * @group functional
  */
-class Mustache_Test_FiveThree_Functional_HigherOrderSectionsTest extends PHPUnit_Framework_TestCase
+class HigherOrderSectionsTest extends \PHPUnit_Framework_TestCase
 {
     private $mustache;
 
     public function setUp()
     {
-        $this->mustache = new Mustache_Engine;
+        $this->mustache = new \Mustache\Engine;
     }
 
     public function testAnonymousFunctionSectionCallback()
     {
         $tpl = $this->mustache->loadTemplate('{{#wrapper}}{{name}}{{/wrapper}}');
 
-        $foo = new Mustache_Test_FiveThree_Functional_Foo;
+        $foo = new Foo;
         $foo->name = 'Mario';
         $foo->wrapper = function($text) {
             return sprintf('<div class="anonymous">%s</div>', $text);
@@ -40,7 +42,7 @@ class Mustache_Test_FiveThree_Functional_HigherOrderSectionsTest extends PHPUnit
         $one = $this->mustache->loadTemplate('{{name}}');
         $two = $this->mustache->loadTemplate('{{#wrap}}{{name}}{{/wrap}}');
 
-        $foo = new Mustache_Test_FiveThree_Functional_Foo;
+        $foo = new Foo;
         $foo->name = 'Luigi';
 
         $this->assertEquals($foo->name, $one->render($foo));
@@ -62,7 +64,7 @@ class Mustache_Test_FiveThree_Functional_HigherOrderSectionsTest extends PHPUnit
     }
 }
 
-class Mustache_Test_FiveThree_Functional_Foo
+class Foo
 {
     public $name  = 'Justin';
     public $lorem = 'Lorem ipsum dolor sit amet,';

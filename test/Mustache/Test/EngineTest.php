@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test;
+
 /**
  * @group unit
  */
-class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
+class EngineTest extends \PHPUnit_Framework_TestCase
 {
 
     private static $tempDir;
@@ -27,10 +29,10 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $logger         = new Mustache_Logger_StreamLogger(tmpfile());
-        $loader         = new Mustache_Loader_StringLoader;
-        $partialsLoader = new Mustache_Loader_ArrayLoader;
-        $mustache       = new Mustache_Engine(array(
+        $logger         = new \Mustache\Logger\StreamLogger(tmpfile());
+        $loader         = new \Mustache\Loader\StringLoader;
+        $partialsLoader = new \Mustache\Loader\ArrayLoader;
+        $mustache       = new \Mustache\Engine(array(
             'template_class_prefix' => '__whot__',
             'cache'  => self::$tempDir,
             'cache_file_mode' => 777,
@@ -71,7 +73,7 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
         $data   = array('bar' => 'baz');
         $output = 'TEH OUTPUT';
 
-        $template = $this->getMockBuilder('Mustache_Template')
+        $template = $this->getMockBuilder('Mustache\Template')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -89,12 +91,12 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
 
     public function testSettingServices()
     {
-        $logger    = new Mustache_Logger_StreamLogger(tmpfile());
-        $loader    = new Mustache_Loader_StringLoader;
-        $tokenizer = new Mustache_Tokenizer;
-        $parser    = new Mustache_Parser;
-        $compiler  = new Mustache_Compiler;
-        $mustache  = new Mustache_Engine;
+        $logger    = new \Mustache\Logger\StreamLogger(tmpfile());
+        $loader    = new \Mustache\Loader\StringLoader;
+        $tokenizer = new \Mustache\Tokenizer;
+        $parser    = new \Mustache\Parser;
+        $compiler  = new \Mustache\Compiler;
+        $mustache  = new \Mustache\Engine;
 
         $this->assertNotSame($logger, $mustache->getLogger());
         $mustache->setLogger($logger);
@@ -126,7 +128,7 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
      */
     public function testCache()
     {
-        $mustache = new Mustache_Engine(array(
+        $mustache = new \Mustache\Engine(array(
             'template_class_prefix' => '__whot__',
             'cache' => self::$tempDir,
         ));
@@ -137,16 +139,16 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
         $fileName  = self::$tempDir . '/' . $className . '.php';
         $this->assertInstanceOf($className, $template);
         $this->assertFileExists($fileName);
-        $this->assertContains("\nclass $className extends Mustache_Template", file_get_contents($fileName));
+        $this->assertContains("\nclass $className extends \\Mustache\\Template", file_get_contents($fileName));
     }
 
     /**
-     * @expectedException Mustache_Exception_InvalidArgumentException
+     * @expectedException \Mustache\Exception\InvalidArgumentException
      * @dataProvider getBadEscapers
      */
     public function testNonCallableEscapeThrowsException($escape)
     {
-        new Mustache_Engine(array('escape' => $escape));
+        new \Mustache\Engine(array('escape' => $escape));
     }
 
     public function getBadEscapers()
@@ -158,12 +160,12 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mustache_Exception_RuntimeException
+     * @expectedException \Mustache\Exception\RuntimeException
      */
     public function testImmutablePartialsLoadersThrowException()
     {
-        $mustache = new Mustache_Engine(array(
-            'partials_loader' => new Mustache_Loader_StringLoader,
+        $mustache = new \Mustache\Engine(array(
+            'partials_loader' => new \Mustache\Loader\StringLoader,
         ));
 
         $mustache->setPartials(array('foo' => '{{ foo }}'));
@@ -171,8 +173,8 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
 
     public function testMissingPartialsTreatedAsEmptyString()
     {
-        $mustache = new Mustache_Engine(array(
-            'partials_loader' => new Mustache_Loader_ArrayLoader(array(
+        $mustache = new \Mustache\Engine(array(
+            'partials_loader' => new \Mustache\Loader\ArrayLoader(array(
                 'foo' => 'FOO',
                 'baz' => 'BAZ',
             ))
@@ -185,7 +187,7 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
     {
         $foo = array($this, 'getFoo');
         $bar = 'BAR';
-        $mustache = new Mustache_Engine(array('helpers' => array(
+        $mustache = new \Mustache\Engine(array('helpers' => array(
             'foo' => $foo,
             'bar' => $bar,
         )));
@@ -223,30 +225,30 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mustache_Exception_InvalidArgumentException
+     * @expectedException \Mustache\Exception\InvalidArgumentException
      */
     public function testSetHelpersThrowsExceptions()
     {
-        $mustache = new Mustache_Engine;
+        $mustache = new \Mustache\Engine;
         $mustache->setHelpers('monkeymonkeymonkey');
     }
 
     /**
-     * @expectedException Mustache_Exception_InvalidArgumentException
+     * @expectedException \Mustache\Exception\InvalidArgumentException
      */
     public function testSetLoggerThrowsExceptions()
     {
-        $mustache = new Mustache_Engine;
-        $mustache->setLogger(new StdClass);
+        $mustache = new \Mustache\Engine;
+        $mustache->setLogger(new \StdClass);
     }
 
     public function testLoadPartialCascading()
     {
-        $loader = new Mustache_Loader_ArrayLoader(array(
+        $loader = new \Mustache\Loader\ArrayLoader(array(
             'foo' => 'FOO',
         ));
 
-        $mustache = new Mustache_Engine(array('loader' => $loader));
+        $mustache = new \Mustache\Engine(array('loader' => $loader));
 
         $tpl = $mustache->loadTemplate('foo');
 
@@ -266,8 +268,8 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
     public function testPartialLoadFailLogging()
     {
         $name     = tempnam(sys_get_temp_dir(), 'mustache-test');
-        $mustache = new Mustache_Engine(array(
-            'logger'   => new Mustache_Logger_StreamLogger($name, Mustache_Logger::WARNING),
+        $mustache = new \Mustache\Engine(array(
+            'logger'   => new \Mustache\Logger\StreamLogger($name, \Mustache\Logger::WARNING),
             'partials' => array(
                 'foo' => 'FOO',
                 'bar' => 'BAR',
@@ -283,8 +285,8 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
     public function testCacheWarningLogging()
     {
         $name     = tempnam(sys_get_temp_dir(), 'mustache-test');
-        $mustache = new Mustache_Engine(array(
-            'logger'   => new Mustache_Logger_StreamLogger($name, Mustache_Logger::WARNING)
+        $mustache = new \Mustache\Engine(array(
+            'logger'   => new \Mustache\Logger\StreamLogger($name, \Mustache\Logger::WARNING)
         ));
 
         $result = $mustache->render('{{ foo }}', array('foo' => 'FOO'));
@@ -296,8 +298,8 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
     public function testLoggingIsNotTooAnnoying()
     {
         $name     = tempnam(sys_get_temp_dir(), 'mustache-test');
-        $mustache = new Mustache_Engine(array(
-            'logger'   => new Mustache_Logger_StreamLogger($name)
+        $mustache = new \Mustache\Engine(array(
+            'logger'   => new \Mustache\Logger\StreamLogger($name)
         ));
 
         $result = $mustache->render('{{ foo }}{{> bar }}', array('foo' => 'FOO'));
@@ -309,8 +311,8 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
     public function testVerboseLoggingIsVerbose()
     {
         $name     = tempnam(sys_get_temp_dir(), 'mustache-test');
-        $mustache = new Mustache_Engine(array(
-            'logger'   => new Mustache_Logger_StreamLogger($name, Mustache_Logger::DEBUG)
+        $mustache = new \Mustache\Engine(array(
+            'logger'   => new \Mustache\Logger\StreamLogger($name, \Mustache\Logger::DEBUG)
         ));
 
         $result = $mustache->render('{{ foo }}{{> bar }}', array('foo' => 'FOO'));
@@ -344,7 +346,7 @@ class Mustache_Test_EngineTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class MustacheStub extends Mustache_Engine
+class MustacheStub extends \Mustache\Engine
 {
     public $source;
     public $template;

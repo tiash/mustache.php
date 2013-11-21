@@ -9,12 +9,14 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache;
+
 /**
  * Mustache Parser class.
  *
  * This class is responsible for turning a set of Mustache tokens into a parse tree.
  */
-class Mustache_Parser
+class Parser
 {
     private $lineNum;
     private $lineTokens;
@@ -37,7 +39,7 @@ class Mustache_Parser
     /**
      * Helper method for recursively building a parse tree.
      *
-     * @throws Mustache_Exception_SyntaxException when nesting errors or mismatched section tags are encountered.
+     * @throws \Mustache\Exception\SyntaxException when nesting errors or mismatched section tags are encountered.
      *
      * @param array &$tokens Set of Mustache tokens
      * @param array  $parent Parent token (default: null)
@@ -51,53 +53,53 @@ class Mustache_Parser
         while (!empty($tokens)) {
             $token = array_shift($tokens);
 
-            if ($token[Mustache_Tokenizer::LINE] === $this->lineNum) {
+            if ($token[\Mustache\Tokenizer::LINE] === $this->lineNum) {
                 $this->lineTokens++;
             } else {
-                $this->lineNum    = $token[Mustache_Tokenizer::LINE];
+                $this->lineNum    = $token[\Mustache\Tokenizer::LINE];
                 $this->lineTokens = 0;
             }
 
-            switch ($token[Mustache_Tokenizer::TYPE]) {
-                case Mustache_Tokenizer::T_DELIM_CHANGE:
+            switch ($token[\Mustache\Tokenizer::TYPE]) {
+                case \Mustache\Tokenizer::T_DELIM_CHANGE:
                     $this->clearStandaloneLines($nodes, $tokens);
                     break;
 
-                case Mustache_Tokenizer::T_SECTION:
-                case Mustache_Tokenizer::T_INVERTED:
+                case \Mustache\Tokenizer::T_SECTION:
+                case \Mustache\Tokenizer::T_INVERTED:
                     $this->clearStandaloneLines($nodes, $tokens);
                     $nodes[] = $this->buildTree($tokens, $token);
                     break;
 
-                case Mustache_Tokenizer::T_END_SECTION:
+                case \Mustache\Tokenizer::T_END_SECTION:
                     if (!isset($parent)) {
-                        $msg = sprintf('Unexpected closing tag: /%s', $token[Mustache_Tokenizer::NAME]);
-                        throw new Mustache_Exception_SyntaxException($msg, $token);
+                        $msg = sprintf('Unexpected closing tag: /%s', $token[\Mustache\Tokenizer::NAME]);
+                        throw new \Mustache\Exception\SyntaxException($msg, $token);
                     }
 
-                    if ($token[Mustache_Tokenizer::NAME] !== $parent[Mustache_Tokenizer::NAME]) {
-                        $msg = sprintf('Nesting error: %s vs. %s', $parent[Mustache_Tokenizer::NAME], $token[Mustache_Tokenizer::NAME]);
-                        throw new Mustache_Exception_SyntaxException($msg, $token);
+                    if ($token[\Mustache\Tokenizer::NAME] !== $parent[\Mustache\Tokenizer::NAME]) {
+                        $msg = sprintf('Nesting error: %s vs. %s', $parent[\Mustache\Tokenizer::NAME], $token[\Mustache\Tokenizer::NAME]);
+                        throw new \Mustache\Exception\SyntaxException($msg, $token);
                     }
 
                     $this->clearStandaloneLines($nodes, $tokens);
-                    $parent[Mustache_Tokenizer::END]   = $token[Mustache_Tokenizer::INDEX];
-                    $parent[Mustache_Tokenizer::NODES] = $nodes;
+                    $parent[\Mustache\Tokenizer::END]   = $token[\Mustache\Tokenizer::INDEX];
+                    $parent[\Mustache\Tokenizer::NODES] = $nodes;
 
                     return $parent;
                     break;
 
-                case Mustache_Tokenizer::T_PARTIAL:
-                case Mustache_Tokenizer::T_PARTIAL_2:
+                case \Mustache\Tokenizer::T_PARTIAL:
+                case \Mustache\Tokenizer::T_PARTIAL_2:
                     // store the whitespace prefix for laters!
                     if ($indent = $this->clearStandaloneLines($nodes, $tokens)) {
-                        $token[Mustache_Tokenizer::INDENT] = $indent[Mustache_Tokenizer::VALUE];
+                        $token[\Mustache\Tokenizer::INDENT] = $indent[\Mustache\Tokenizer::VALUE];
                     }
                     $nodes[] = $token;
                     break;
 
-                case Mustache_Tokenizer::T_PRAGMA:
-                case Mustache_Tokenizer::T_COMMENT:
+                case \Mustache\Tokenizer::T_PRAGMA:
+                case \Mustache\Tokenizer::T_COMMENT:
                     $this->clearStandaloneLines($nodes, $tokens);
                     $nodes[] = $token;
                     break;
@@ -109,8 +111,8 @@ class Mustache_Parser
         }
 
         if (isset($parent)) {
-            $msg = sprintf('Missing closing tag: %s', $parent[Mustache_Tokenizer::NAME]);
-            throw new Mustache_Exception_SyntaxException($msg, $parent);
+            $msg = sprintf('Missing closing tag: %s', $parent[\Mustache\Tokenizer::NAME]);
+            throw new \Mustache\Exception\SyntaxException($msg, $parent);
         }
 
         return $nodes;
@@ -147,7 +149,7 @@ class Mustache_Parser
         $next = null;
         if ($next = reset($tokens)) {
             // If we're on a new line, bail.
-            if ($next[Mustache_Tokenizer::LINE] !== $this->lineNum) {
+            if ($next[\Mustache\Tokenizer::LINE] !== $this->lineNum) {
                 return;
             }
 
@@ -159,7 +161,7 @@ class Mustache_Parser
             if (count($tokens) !== 1) {
                 // Unless it's the last token in the template, the next token
                 // must end in newline for this to be standalone.
-                if (substr($next[Mustache_Tokenizer::VALUE], -1) !== "\n") {
+                if (substr($next[\Mustache\Tokenizer::VALUE], -1) !== "\n") {
                     return;
                 }
             }
@@ -185,8 +187,8 @@ class Mustache_Parser
      */
     private function tokenIsWhitespace(array $token)
     {
-        if ($token[Mustache_Tokenizer::TYPE] == Mustache_Tokenizer::T_TEXT) {
-            return preg_match('/^\s*$/', $token[Mustache_Tokenizer::VALUE]);
+        if ($token[\Mustache\Tokenizer::TYPE] == \Mustache\Tokenizer::T_TEXT) {
+            return preg_match('/^\s*$/', $token[\Mustache\Tokenizer::VALUE]);
         }
 
         return false;

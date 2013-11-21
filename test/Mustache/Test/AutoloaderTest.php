@@ -9,28 +9,30 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test;
+
 /**
  * @group unit
  */
-class Mustache_Test_AutoloaderTest extends PHPUnit_Framework_TestCase
+class AutoloaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegister()
     {
-        $loader = Mustache_Autoloader::register();
+        $loader = \Mustache\Autoloader::register();
         $this->assertTrue(spl_autoload_unregister(array($loader, 'autoload')));
     }
 
     public function testAutoloader()
     {
-        $loader = new Mustache_Autoloader(dirname(__FILE__).'/../../fixtures/autoloader');
+        $loader = new \Mustache\Autoloader(dirname(__FILE__).'/../../fixtures/autoloader');
 
-        $this->assertNull($loader->autoload('NonMustacheClass'));
-        $this->assertFalse(class_exists('NonMustacheClass'));
+        $this->assertNull($loader->autoload('\NonMustacheClass'));
+        $this->assertFalse(class_exists('\NonMustacheClass'));
 
-        $loader->autoload('Mustache_Foo');
-        $this->assertTrue(class_exists('Mustache_Foo'));
+        $loader->autoload('\Mustache\Foo');
+        $this->assertTrue(class_exists('\Mustache\Foo'));
 
-        $loader->autoload('\Mustache_Bar');
-        $this->assertTrue(class_exists('Mustache_Bar'));
+        $loader->autoload('\Mustache\Bar');
+        $this->assertTrue(class_exists('\Mustache\Bar'));
     }
 }

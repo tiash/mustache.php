@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Loader;
+
 /**
  * Mustache Template mutable Loader interface.
  */
-interface Mustache_Loader_MutableLoader
+interface MutableLoader
 {
 
     /**

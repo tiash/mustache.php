@@ -9,11 +9,13 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\FiveThree\Functional;
+
 /**
  * @group lambdas
  * @group functional
  */
-class Mustache_Test_FiveThree_Functional_PartialLambdaIndentTest extends PHPUnit_Framework_TestCase
+class PartialLambdaIndentTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testLambdasInsidePartialsAreIndentedProperly()
@@ -36,19 +38,19 @@ EOS;
 
 EOS;
 
-        $m = new Mustache_Engine(array(
+        $m = new \Mustache\Engine(array(
             'partials' => array('input' => $partial)
         ));
 
         $tpl = $m->loadTemplate($src);
 
 
-        $data = new Mustache_Test_Functional_ClassWithLambda();
+        $data = new ClassWithLambda();
         $this->assertEquals($expected, $tpl->render($data));
     }
 }
 
-class Mustache_Test_Functional_ClassWithLambda
+class ClassWithLambda
 {
     public function _t()
     {

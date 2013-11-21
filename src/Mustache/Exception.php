@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache;
+
 /**
  * A Mustache Exception interface.
  */
-interface Mustache_Exception
+interface Exception
 {
     // This space intentionally left blank.
 }

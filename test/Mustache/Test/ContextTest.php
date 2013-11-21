@@ -9,43 +9,45 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test;
+
 /**
  * @group unit
  */
-class Mustache_Test_ContextTest extends PHPUnit_Framework_TestCase
+class ContextTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $one = new Mustache_Context;
+        $one = new \Mustache\Context;
         $this->assertSame('', $one->find('foo'));
         $this->assertSame('', $one->find('bar'));
 
-        $two = new Mustache_Context(array(
+        $two = new \Mustache\Context(array(
             'foo' => 'FOO',
             'bar' => '<BAR>'
         ));
         $this->assertEquals('FOO', $two->find('foo'));
         $this->assertEquals('<BAR>', $two->find('bar'));
 
-        $obj = new StdClass;
+        $obj = new \StdClass;
         $obj->name = 'NAME';
-        $three = new Mustache_Context($obj);
+        $three = new \Mustache\Context($obj);
         $this->assertSame($obj, $three->last());
         $this->assertEquals('NAME', $three->find('name'));
     }
 
     public function testPushPopAndLast()
     {
-        $context = new Mustache_Context;
+        $context = new \Mustache\Context;
         $this->assertFalse($context->last());
 
-        $dummy = new Mustache_Test_TestDummy;
+        $dummy = new TestDummy;
         $context->push($dummy);
         $this->assertSame($dummy, $context->last());
         $this->assertSame($dummy, $context->pop());
         $this->assertFalse($context->last());
 
-        $obj = new StdClass;
+        $obj = new \StdClass;
         $context->push($dummy);
         $this->assertSame($dummy, $context->last());
         $context->push($obj);
@@ -57,11 +59,11 @@ class Mustache_Test_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testFind()
     {
-        $context = new Mustache_Context;
+        $context = new \Mustache\Context;
 
-        $dummy = new Mustache_Test_TestDummy;
+        $dummy = new TestDummy;
 
-        $obj = new StdClass;
+        $obj = new \StdClass;
         $obj->name = 'obj';
 
         $arr = array(
@@ -98,7 +100,7 @@ class Mustache_Test_ContextTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class Mustache_Test_TestDummy
+class TestDummy
 {
     public $name = 'dummy';
 

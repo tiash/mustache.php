@@ -9,23 +9,25 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\Functional;
+
 /**
  * @group sections
  * @group functional
  */
-class Mustache_Test_Functional_ObjectSectionTest extends PHPUnit_Framework_TestCase
+class ObjectSectionTest extends \PHPUnit_Framework_TestCase
 {
     private $mustache;
 
     public function setUp()
     {
-        $this->mustache = new Mustache_Engine;
+        $this->mustache = new \Mustache\Engine;
     }
 
     public function testBasicObject()
     {
         $tpl = $this->mustache->loadTemplate('{{#foo}}{{name}}{{/foo}}');
-        $this->assertEquals('Foo', $tpl->render(new Mustache_Test_Functional_Alpha));
+        $this->assertEquals('Foo', $tpl->render(new Alpha));
     }
 
     /**
@@ -34,7 +36,7 @@ class Mustache_Test_Functional_ObjectSectionTest extends PHPUnit_Framework_TestC
     public function testObjectWithGet()
     {
         $tpl = $this->mustache->loadTemplate('{{#foo}}{{name}}{{/foo}}');
-        $this->assertEquals('Foo', $tpl->render(new Mustache_Test_Functional_Beta));
+        $this->assertEquals('Foo', $tpl->render(new Beta));
     }
 
     /**
@@ -43,37 +45,37 @@ class Mustache_Test_Functional_ObjectSectionTest extends PHPUnit_Framework_TestC
     public function testSectionObjectWithGet()
     {
         $tpl = $this->mustache->loadTemplate('{{#bar}}{{#foo}}{{name}}{{/foo}}{{/bar}}');
-        $this->assertEquals('Foo', $tpl->render(new Mustache_Test_Functional_Gamma));
+        $this->assertEquals('Foo', $tpl->render(new Gamma));
     }
 
     public function testSectionObjectWithFunction()
     {
         $tpl = $this->mustache->loadTemplate('{{#foo}}{{name}}{{/foo}}');
-        $alpha = new Mustache_Test_Functional_Alpha;
-        $alpha->foo = new Mustache_Test_Functional_Delta;
+        $alpha = new Alpha;
+        $alpha->foo = new Delta;
         $this->assertEquals('Foo', $tpl->render($alpha));
     }
 }
 
-class Mustache_Test_Functional_Alpha
+class Alpha
 {
     public $foo;
 
     public function __construct()
     {
-        $this->foo = new StdClass();
+        $this->foo = new \StdClass();
         $this->foo->name = 'Foo';
         $this->foo->number = 1;
     }
 }
 
-class Mustache_Test_Functional_Beta
+class Beta
 {
     protected $_data = array();
 
     public function __construct()
     {
-        $this->_data['foo'] = new StdClass();
+        $this->_data['foo'] = new \StdClass();
         $this->_data['foo']->name = 'Foo';
         $this->_data['foo']->number = 1;
     }
@@ -89,17 +91,17 @@ class Mustache_Test_Functional_Beta
     }
 }
 
-class Mustache_Test_Functional_Gamma
+class Gamma
 {
     public $bar;
 
     public function __construct()
     {
-        $this->bar = new Mustache_Test_Functional_Beta;
+        $this->bar = new Beta;
     }
 }
 
-class Mustache_Test_Functional_Delta
+class Delta
 {
     protected $_name = 'Foo';
 

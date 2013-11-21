@@ -9,11 +9,13 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\Functional;
+
 /**
  * @group examples
  * @group functional
  */
-class Mustache_Test_Functional_ExamplesTest extends PHPUnit_Framework_TestCase
+class ExamplesTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -28,7 +30,7 @@ class Mustache_Test_Functional_ExamplesTest extends PHPUnit_Framework_TestCase
      */
     public function testExamples($context, $source, $partials, $expected)
     {
-        $mustache = new Mustache_Engine(array(
+        $mustache = new \Mustache\Engine(array(
             'partials' => $partials
         ));
         $this->assertEquals($expected, $mustache->loadTemplate($source)->render($context));

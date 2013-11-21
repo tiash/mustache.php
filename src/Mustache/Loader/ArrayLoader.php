@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Loader;
+
 /**
  * Mustache Template array Loader implementation.
  *
@@ -21,10 +23,10 @@
  *
  *     $tpl = $loader->load('foo'); // '{{ bar }}'
  *
- * The ArrayLoader is used internally as a partials loader by Mustache_Engine instance when an array of partials
+ * The ArrayLoader is used internally as a partials loader by \Mustache\Engine instance when an array of partials
  * is set. It can also be used as a quick-and-dirty Template loader.
  */
-class Mustache_Loader_ArrayLoader implements Mustache_Loader, Mustache_Loader_MutableLoader
+class ArrayLoader implements \Mustache\Loader, \Mustache\Loader\MutableLoader
 {
 
     /**
@@ -40,7 +42,7 @@ class Mustache_Loader_ArrayLoader implements Mustache_Loader, Mustache_Loader_Mu
     /**
      * Load a Template.
      *
-     * @throws Mustache_Exception_UnknownTemplateException If a template file is not found.
+     * @throws \Mustache\Exception\UnknownTemplateException If a template file is not found.
      *
      * @param string $name
      *
@@ -49,7 +51,7 @@ class Mustache_Loader_ArrayLoader implements Mustache_Loader, Mustache_Loader_Mu
     public function load($name)
     {
         if (!isset($this->templates[$name])) {
-            throw new Mustache_Exception_UnknownTemplateException($name);
+            throw new \Mustache\Exception\UnknownTemplateException($name);
         }
 
         return $this->templates[$name];

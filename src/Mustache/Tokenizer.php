@@ -9,12 +9,14 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache;
+
 /**
  * Mustache Tokenizer class.
  *
  * This class is responsible for turning raw template source into a set of Mustache tokens.
  */
-class Mustache_Tokenizer
+class Tokenizer
 {
 
     // Finite state machine states

@@ -9,21 +9,23 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\FiveThree\Functional;
+
 /**
  * @group lambdas
  * @group functional
  */
-class Mustache_Test_FiveThree_Functional_StrictCallablesTest extends PHPUnit_Framework_TestCase
+class StrictCallablesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider callables
      */
     public function testStrictCallablesDisabled($name, $section, $expected)
     {
-        $mustache = new Mustache_Engine(array('strict_callables' => false));
+        $mustache = new \Mustache\Engine(array('strict_callables' => false));
         $tpl      = $mustache->loadTemplate('{{# section }}{{ name }}{{/ section }}');
 
-        $data = new StdClass;
+        $data = new \StdClass;
         $data->name    = $name;
         $data->section = $section;
 
@@ -80,10 +82,10 @@ class Mustache_Test_FiveThree_Functional_StrictCallablesTest extends PHPUnit_Fra
      */
     public function testStrictCallablesEnabled($name, $section, $expected)
     {
-        $mustache = new Mustache_Engine(array('strict_callables' => true));
+        $mustache = new \Mustache\Engine(array('strict_callables' => true));
         $tpl      = $mustache->loadTemplate('{{# section }}{{ name }}{{/ section }}');
 
-        $data = new StdClass;
+        $data = new \StdClass;
         $data->name    = $name;
         $data->section = $section;
 

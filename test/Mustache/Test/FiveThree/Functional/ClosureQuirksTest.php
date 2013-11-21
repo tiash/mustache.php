@@ -9,17 +9,19 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\FiveThree\Functional;
+
 /**
  * @group lambdas
  * @group functional
  */
-class Mustache_Test_FiveThree_Functional_ClosuresQuirksTest extends PHPUnit_Framework_TestCase
+class ClosuresQuirksTest extends \PHPUnit_Framework_TestCase
 {
     private $mustache;
 
     public function setUp()
     {
-        $this->mustache = new Mustache_Engine;
+        $this->mustache = new \Mustache\Engine;
     }
 
     public function testClosuresDontLikeItWhenYouTouchTheirProperties()

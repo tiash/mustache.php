@@ -9,14 +9,16 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\Loader;
+
 /**
  * @group unit
  */
-class Mustache_Test_Loader_ArrayLoaderTest extends PHPUnit_Framework_TestCase
+class ArrayLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
-        $loader = new Mustache_Loader_ArrayLoader(array(
+        $loader = new \Mustache\Loader\ArrayLoader(array(
             'foo' => 'bar'
         ));
 
@@ -25,7 +27,7 @@ class Mustache_Test_Loader_ArrayLoaderTest extends PHPUnit_Framework_TestCase
 
     public function testSetAndLoadTemplates()
     {
-        $loader = new Mustache_Loader_ArrayLoader(array(
+        $loader = new \Mustache\Loader\ArrayLoader(array(
             'foo' => 'bar'
         ));
         $this->assertEquals('bar', $loader->load('foo'));
@@ -42,11 +44,11 @@ class Mustache_Test_Loader_ArrayLoaderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mustache_Exception_UnknownTemplateException
+     * @expectedException \Mustache\Exception\UnknownTemplateException
      */
     public function testMissingTemplatesThrowExceptions()
     {
-        $loader = new Mustache_Loader_ArrayLoader;
+        $loader = new \Mustache\Loader\ArrayLoader;
         $loader->load('not_a_real_template');
     }
 }

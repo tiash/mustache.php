@@ -9,19 +9,21 @@
  * file that was distributed with this source code.
  */
 
-class Mustache_Test_Exception_SyntaxExceptionTest extends PHPUnit_Framework_TestCase
+namespace Mustache\Test\Exception;
+
+class SyntaxExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function testInstance()
     {
-        $e = new Mustache_Exception_SyntaxException('whot', array('is' => 'this'));
-        $this->assertTrue($e instanceof LogicException);
-        $this->assertTrue($e instanceof Mustache_Exception);
+        $e = new \Mustache\Exception\SyntaxException('whot', array('is' => 'this'));
+        $this->assertTrue($e instanceof \LogicException);
+        $this->assertTrue($e instanceof \Mustache\Exception);
     }
 
     public function testGetToken()
     {
-        $token = array(Mustache_Tokenizer::TYPE => 'whatever');
-        $e = new Mustache_Exception_SyntaxException('ignore this', $token);
+        $token = array(\Mustache\Tokenizer::TYPE => 'whatever');
+        $e = new \Mustache\Exception\SyntaxException('ignore this', $token);
         $this->assertEquals($token, $e->getToken());
     }
 }

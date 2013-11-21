@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache;
+
 /**
  * Mustache class autoloader.
  */
-class Mustache_Autoloader
+class Autoloader
 {
 
     private $baseDir;
@@ -59,15 +61,17 @@ class Mustache_Autoloader
      */
     public function autoload($class)
     {
+
         if ($class[0] === '\\') {
             $class = substr($class, 1);
         }
 
-        if (strpos($class, 'Mustache') !== 0) {
+        if (strpos($class, "Mustache\\") !== 0) {
             return;
         }
 
-        $file = sprintf('%s/%s.php', $this->baseDir, str_replace('_', '/', $class));
+        $file = $this->baseDir . '/' . str_replace("\\", '/', $class).'.php';
+
         if (is_file($file)) {
             require $file;
         }

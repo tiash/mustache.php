@@ -9,7 +9,9 @@
  * file that was distributed with this source code.
  */
 
-class Mustache_Foo
+namespace Mustache;
+
+class Foo
 {
     // nada
 }

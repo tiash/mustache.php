@@ -9,10 +9,12 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Exception;
+
 /**
  * Logic exception.
  */
-class Mustache_Exception_LogicException extends LogicException implements Mustache_Exception
+class LogicException extends \LogicException implements \Mustache\Exception
 {
     // This space intentionally left blank.
 }

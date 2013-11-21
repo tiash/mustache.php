@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Loader;
+
 /**
  * Mustache Template string Loader implementation.
  *
@@ -23,7 +25,7 @@
  *     $tpl = $m->loadTemplate('{{ foo }}');
  *     echo $tpl->render(array('foo' => 'bar')); // "bar"
  */
-class Mustache_Loader_StringLoader implements Mustache_Loader
+class StringLoader implements \Mustache\Loader
 {
 
     /**

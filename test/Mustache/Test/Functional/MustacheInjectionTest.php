@@ -9,18 +9,20 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\Functional;
+
 /**
  * @group mustache_injection
  * @group functional
  */
-class Mustache_Test_Functional_MustacheInjectionTest extends PHPUnit_Framework_TestCase
+class MustacheInjectionTest extends \PHPUnit_Framework_TestCase
 {
 
     private $mustache;
 
     public function setUp()
     {
-        $this->mustache = new Mustache_Engine;
+        $this->mustache = new \Mustache\Engine;
     }
 
     // interpolation

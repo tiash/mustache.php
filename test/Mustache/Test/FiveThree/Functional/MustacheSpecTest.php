@@ -9,19 +9,21 @@
  * file that was distributed with this source code.
  */
 
+namespace Mustache\Test\FiveThree\Functional;
+
 /**
  * A PHPUnit test case wrapping the Mustache Spec
  *
  * @group mustache-spec
  * @group functional
  */
-class Mustache_Test_FiveThree_Functional_MustacheSpecTest extends PHPUnit_Framework_TestCase
+class MustacheSpecTest extends \PHPUnit_Framework_TestCase
 {
     private static $mustache;
 
     public static function setUpBeforeClass()
     {
-        self::$mustache = new Mustache_Engine;
+        self::$mustache = new \Mustache\Engine;
     }
 
     /**
@@ -89,7 +91,7 @@ class Mustache_Test_FiveThree_Functional_MustacheSpecTest extends PHPUnit_Framew
         }
 
         $data = array();
-        $yaml = new sfYamlParser;
+        $yaml = new \sfYamlParser;
         $file = file_get_contents($filename);
 
         // @hack: pre-process the 'lambdas' spec so the Symfony YAML parser doesn't complain.
